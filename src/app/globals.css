@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #e2e2f0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a3e;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
+
+/* Selection */
+::selection {
+  background: rgba(124, 58, 237, 0.4);
+  color: #fff;
+}
+
+/* Prose styles for post content */
+.prose-gaming {
+  line-height: 1.8;
+  color: #c4c4d8;
+}
+.prose-gaming h1, .prose-gaming h2, .prose-gaming h3 {
+  color: #e2e2f0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.prose-gaming p { margin-bottom: 1em; }
+.prose-gaming strong { color: #e2e2f0; font-weight: 600; }
+.prose-gaming code {
+  background: #1a1a24;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: #a855f7;
+}
+.prose-gaming ul, .prose-gaming ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+.prose-gaming li { margin-bottom: 0.25em; }
+.prose-gaming blockquote {
+  border-left: 3px solid #7c3aed;
+  padding-left: 1em;
+  color: #6b6b8a;
+  margin: 1em 0;
+}
+
+/* Glow effects */
+.glow-purple { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+.glow-text { text-shadow: 0 0 20px rgba(124, 58, 237, 0.6); }
+
+/* Animated background grid */
+.bg-grid {
+  background-image: linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Input styles */
+.input-gaming {
+  background: #13131c;
+  border: 1px solid #1e1e2e;
+  color: #e2e2f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 100%;
+}
+.input-gaming:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+.input-gaming::placeholder { color: #3a3a5c; }
+
+/* Button variants */
+.btn-primary {
+  background: #7c3aed;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover {
+  background: #6d28d9;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+.btn-secondary {
+  background: #13131c;
+  color: #e2e2f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: 1px solid #1e1e2e;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover {
+  border-color: #7c3aed;
+  color: #a855f7;
+}
+.btn-ghost {
+  background: transparent;
+  color: #6b6b8a;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-ghost:hover {
+  background: rgba(124, 58, 237, 0.1);
+  color: #a855f7;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #13131c 25%, #1a1a24 50%, #13131c 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
