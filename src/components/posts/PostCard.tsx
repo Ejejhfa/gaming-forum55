@@ -24,7 +24,7 @@ export function PostCard({ post }: { post: PostWithDetails }) {
             {/* Meta */}
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-xs px-2 py-0.5 rounded-md font-medium"
-                style={{ background: post.category.color + '20', color: post.category.color }}>
+                style={{ background: (post.category.color ?? '#7c3aed') + '20', color: post.category.color ?? '#7c3aed' }}>
                 {post.category.icon} {post.category.name}
               </span>
               {post.pinned && (
