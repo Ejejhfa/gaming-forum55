@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 // src/app/categories/page.tsx
 import { prisma } from '@/lib/prisma'
 import { CategoryCard } from '@/components/categories/CategoryCard'

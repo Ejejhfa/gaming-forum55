@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 // src/app/search/page.tsx
 import { prisma } from '@/lib/prisma'
 import { PostCard } from '@/components/posts/PostCard'

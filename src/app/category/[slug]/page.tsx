@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 // src/app/category/[slug]/page.tsx
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
