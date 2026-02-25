@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { Tv, Users, ChevronRight, Twitch, Youtube } from 'lucide-react'
+export const dynamic = 'force-dynamic'
 
 export default async function StreamersPage() {
   const streamers = await prisma.streamerApplication.findMany({

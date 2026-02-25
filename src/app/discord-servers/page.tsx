@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { MessageCircle, Users } from 'lucide-react'
+export const dynamic = 'force-dynamic'
 
 export default async function DiscordServersPage() {
   const servers = await prisma.discordApplication.findMany({

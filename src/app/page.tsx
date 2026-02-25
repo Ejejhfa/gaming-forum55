@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { PostCard } from '@/components/posts/PostCard'
 import { CategoryCard } from '@/components/categories/CategoryCard'
 import { Zap, Flame, Clock, ChevronRight } from 'lucide-react'
+export const dynamic = 'force-dynamic'
 
 async function getData() {
   const [featuredPosts, latestPosts, categories] = await Promise.all([

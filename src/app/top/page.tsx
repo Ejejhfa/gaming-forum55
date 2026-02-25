@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma'
 import { PostCard } from '@/components/posts/PostCard'
 import { TrendingUp } from 'lucide-react'
+export const dynamic = 'force-dynamic'
 
 export default async function TopPage() {
   const posts = await prisma.post.findMany({
