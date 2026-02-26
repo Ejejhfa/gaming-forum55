@@ -1,43 +1,24 @@
 // src/components/layout/Sidebar.tsx
+'use client'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
-import { TrendingUp, Users, MessageSquare, Gamepad2, Crown } from 'lucide-react'
+import { TrendingUp, Users, Crown, Gamepad2 } from 'lucide-react'
 
-async function getStats() {
-  const [userCount, postCount, commentCount] = await Promise.all([
-    prisma.user.count(),
-    prisma.post.count(),
-    prisma.comment.count(),
-  ])
-  return { userCount, postCount, commentCount }
-}
+export function Sidebar() {
+  const [stats, setStats] = useState({ userCount: 0, postCount: 0, commentCount: 0 })
+  const [trending, setTrending] = useState<any[]>([])
+  const [topUsers, setTopUsers] = useState<any[]>([])
 
-async function getTopUsers() {
-  return prisma.user.findMany({
-    orderBy: { reputation: 'desc' },
-    take: 5,
-    select: { id: true, username: true, name: true, reputation: true, avatar: true },
-  })
-}
-
-async function getTrendingPosts() {
-  return prisma.post.findMany({
-    orderBy: { views: 'desc' },
-    take: 5,
-    select: { id: true, title: true, slug: true, views: true, _count: { select: { comments: true } } },
-  })
-}
-
-export async function Sidebar() {
-  const [stats, topUsers, trending] = await Promise.all([
-    getStats(),
-    getTopUsers(),
-    getTrendingPosts(),
-  ])
+  useEffect(() => {
+    fetch('/api/sidebar').then(r => r.json()).then(data => {
+      setStats(data.stats)
+      setTrending(data.trending)
+      setTopUsers(data.topUsers)
+    }).catch(() => {})
+  }, [])
 
   return (
     <aside className="hidden lg:block w-72 shrink-0 space-y-4">
-      {/* Community Stats */}
       <div className="bg-bg-card border border-border rounded-xl p-4">
         <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
           <Gamepad2 size={14} className="text-accent-light" /> Community Stats
@@ -62,56 +43,51 @@ export async function Sidebar() {
         </div>
       </div>
 
-      {/* Trending Posts */}
-      <div className="bg-bg-card border border-border rounded-xl p-4">
-        <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
-          <TrendingUp size={14} className="text-accent-light" /> Trending
-        </h3>
-        <div className="space-y-2">
-          {trending.map((post, i) => (
-            <Link key={post.id} href={`/post/${post.slug}`}
-              className="flex items-start gap-2 group">
-              <span className="text-lg font-display font-bold text-text-faint group-hover:text-accent-light transition-colors leading-none mt-0.5">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <p className="text-xs text-text-muted group-hover:text-text transition-colors line-clamp-2 leading-relaxed">
-                  {post.title}
-                </p>
-                <p className="text-xs text-text-faint mt-0.5">
-                  {post.views} views · {post._count.comments} replies
-                </p>
-              </div>
-            </Link>
-          ))}
+      {trending.length > 0 && (
+        <div className="bg-bg-card border border-border rounded-xl p-4">
+          <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
+            <TrendingUp size={14} className="text-accent-light" /> Trending
+          </h3>
+          <div className="space-y-2">
+            {trending.map((post: any, i: number) => (
+              <Link key={post.id} href={`/post/${post.slug}`} className="flex items-start gap-2 group">
+                <span className="text-lg font-display font-bold text-text-faint group-hover:text-accent-light transition-colors leading-none mt-0.5">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <p className="text-xs text-text-muted group-hover:text-text transition-colors line-clamp-2 leading-relaxed">
+                    {post.title}
+                  </p>
+                  <p className="text-xs text-text-faint mt-0.5">{post.views} views</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Top Members */}
-      <div className="bg-bg-card border border-border rounded-xl p-4">
-        <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
-          <Crown size={14} className="text-accent-light" /> Top Members
-        </h3>
-        <div className="space-y-2">
-          {topUsers.map((user, i) => (
-            <Link key={user.id} href={`/user/${user.username}`}
-              className="flex items-center gap-2 group">
-              <span className="text-xs font-mono text-text-faint w-4">{i + 1}</span>
-              <div className="w-6 h-6 rounded-md bg-accent-glow border border-accent/30 flex items-center justify-center text-xs font-bold text-accent-light shrink-0">
-                {user.name[0].toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-text-muted group-hover:text-text transition-colors truncate">
-                  {user.username}
-                </p>
-              </div>
-              <span className="text-xs text-accent-light font-mono">{user.reputation.toLocaleString()}</span>
-            </Link>
-          ))}
+      {topUsers.length > 0 && (
+        <div className="bg-bg-card border border-border rounded-xl p-4">
+          <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Crown size={14} className="text-accent-light" /> Top Members
+          </h3>
+          <div className="space-y-2">
+            {topUsers.map((user: any, i: number) => (
+              <Link key={user.id} href={`/user/${user.username}`} className="flex items-center gap-2 group">
+                <span className="text-xs font-mono text-text-faint w-4">{i + 1}</span>
+                <div className="w-6 h-6 rounded-md bg-accent-glow border border-accent/30 flex items-center justify-center text-xs font-bold text-accent-light shrink-0">
+                  {user.name[0].toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-text-muted group-hover:text-text transition-colors truncate">{user.username}</p>
+                </div>
+                <span className="text-xs text-accent-light font-mono">{user.reputation.toLocaleString()}</span>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Quick Links */}
       <div className="bg-bg-card border border-border rounded-xl p-4">
         <h3 className="font-display font-bold text-white text-sm uppercase tracking-wider mb-3">Quick Links</h3>
         <div className="space-y-1">
@@ -119,6 +95,8 @@ export async function Sidebar() {
             { href: '/categories', label: 'All Categories' },
             { href: '/latest', label: 'Latest Posts' },
             { href: '/top', label: 'Top Posts' },
+            { href: '/streamers', label: '🎥 Streamers' },
+            { href: '/discord-servers', label: '💬 Discord Servers' },
             { href: '/post/new', label: '+ Create Post' },
           ].map(link => (
             <Link key={link.href} href={link.href}
