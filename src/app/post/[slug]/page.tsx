@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma'
 import { formatDistanceToNow, format } from 'date-fns'
 import { Eye, Heart, MessageSquare, Pin, Lock, Share2, Flag, ChevronLeft } from 'lucide-react'
 import { CommentSection } from '@/components/posts/CommentSection'
+import { DeleteButton } from '@/components/admin/DeleteButton'
 import { LikeButton } from '@/components/posts/LikeButton'
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
@@ -130,6 +131,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
           <div className="flex items-center gap-1">
             <button className="btn-ghost p-2"><Share2 size={14} /></button>
             <button className="btn-ghost p-2"><Flag size={14} /></button>
+            <DeleteButton type="post" id={post.id} redirectTo={'/category/' + post.category.slug} />
           </div>
         </div>
       </article>

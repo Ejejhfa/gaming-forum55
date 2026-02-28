@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { DeleteButton } from '@/components/admin/DeleteButton'
 import { useSession } from 'next-auth/react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
@@ -69,6 +70,7 @@ function CommentItem({ comment, level = 0 }: { comment: Comment; level?: number 
               <CornerDownRight size={12} /> Reply
             </button>
           )}
+          <DeleteButton type="comment" id={comment.id} />
           {comment.replies && comment.replies.length > 0 && (
             <button onClick={() => setShowReplies(!showReplies)} className="btn-ghost text-xs flex items-center gap-1 ml-auto">
               {showReplies ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
