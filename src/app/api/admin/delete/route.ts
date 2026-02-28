@@ -17,6 +17,15 @@ export async function DELETE(req: NextRequest) {
       await prisma.post.delete({ where: { id } })
     } else if (type === 'comment') {
       await prisma.comment.delete({ where: { id } })
+    } else if (type === 'user') {
+      // Delete all user content first
+      await prisma.like.deleteMany({ where: { userId: id } })
+      await prisma.comment.deleteMany({ where: { authorId: id } })
+      await prisma.post.deleteMany({ where: { authorId: id } })
+      await prisma.streamerApplication.deleteMany({ where: { userId: id } })
+      await prisma.discordApplication.deleteMany({ where: { userId: id } })
+      await prisma.session.deleteMany({ where: { userId: id } })
+      await prisma.user.delete({ where: { id } })
     } else {
       return NextResponse.json({ error: 'Invalid type' }, { status: 400 })
     }

@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { Shield, Users, FileText, MessageSquare } from 'lucide-react'
 import { AdminApplications } from '@/components/admin/AdminApplications'
+import { DeleteButton } from '@/components/admin/DeleteButton'
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions)
@@ -80,6 +81,7 @@ export default async function AdminPage() {
                 <th className="text-left p-3 text-xs text-text-muted font-semibold uppercase">Email</th>
                 <th className="text-left p-3 text-xs text-text-muted font-semibold uppercase">Role</th>
                 <th className="text-left p-3 text-xs text-text-muted font-semibold uppercase">Rep</th>
+                <th className="text-left p-3 text-xs text-text-muted font-semibold uppercase">Actie</th>
               </tr>
             </thead>
             <tbody>
@@ -96,6 +98,9 @@ export default async function AdminPage() {
                     </span>
                   </td>
                   <td className="p-3 font-mono text-xs text-accent-light">{user.reputation}</td>
+                  <td className="p-3">
+                    {user.role !== 'ADMIN' && <DeleteButton type="user" id={user.id} redirectTo="/admin" />}
+                  </td>
                 </tr>
               ))}
             </tbody>
