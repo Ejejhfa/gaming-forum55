@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
 
 export function DeleteButton({ type, id, redirectTo }: {
-  type: 'post' | 'comment'
+  type: 'post' | 'comment' | 'user'
   id: string
   redirectTo?: string
 }) {
